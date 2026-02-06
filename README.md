@@ -13,7 +13,6 @@ lanchonete-bom-sabor-app/
 │ │ ├─ novo.tsx
 │ │ └─ [id].tsx
 │ └─ venda/
-│ └─ historico.tsx
 │
 ├─ src/ ← LÓGICA DA APLICAÇÃO
 │ ├─ contexts/
