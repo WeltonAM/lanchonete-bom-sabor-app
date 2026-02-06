@@ -1,34 +1,46 @@
+import { useInsumo } from '@/hooks/use-insumo.hook';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
-const initialInventory = [
-    { id: '1', nome: 'Pão de Hambúrguer', qtd: 50, min: 20, unidade: 'un' },
-    { id: '2', nome: 'Carne Bovina 150g', qtd: 8, min: 15, unidade: 'un' },
-    { id: '3', nome: 'Queijo Prato', qtd: 2.5, min: 1.0, unidade: 'kg' },
-    { id: '4', nome: 'Batata Congelada', qtd: 1, min: 5, unidade: 'pct' },
-];
+import { Insumo } from 'types/Insumo';
 
 export default function Estoque() {
+    const { insumos, loading } = useInsumo();
     const [search, setSearch] = useState('');
 
-    const renderItem = ({ item }: { item: typeof initialInventory[0] }) => {
-        const isLow = item.qtd <= item.min;
+    const filtered = insumos.filter(i =>
+        i.nome.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const renderItem = ({ item }: { item: Insumo }) => {
+        const minimo = item.estoqueMinimo ?? 5;
+        const isLow = item.estoque <= minimo;
 
         return (
             <View style={[styles.card, isLow && styles.cardLow]}>
                 <View style={styles.cardInfo}>
                     <Text style={styles.itemName}>{item.nome}</Text>
-                    <Text style={styles.itemMin}>Mínimo sugerido: {item.min} {item.unidade}</Text>
+                    <Text style={styles.itemMin}>
+                        Mínimo sugerido: {minimo} {item.unidade}
+                    </Text>
                 </View>
+
                 <View style={styles.cardQty}>
                     <Text style={[styles.qtyText, isLow ? styles.textAlert : styles.textSafe]}>
-                        {item.qtd}
+                        {item.estoque}
                     </Text>
                     <Text style={styles.unitText}>{item.unidade}</Text>
                 </View>
-                {isLow && <Ionicons name="warning" size={20} color="#ff4757" style={styles.warningIcon} />}
+
+                {isLow && (
+                    <Ionicons
+                        name="warning"
+                        size={20}
+                        color="#ff4757"
+                        style={styles.warningIcon}
+                    />
+                )}
             </View>
         );
     };
@@ -55,13 +67,19 @@ export default function Estoque() {
                 />
             </View>
 
-            <FlatList
-                data={initialInventory.filter(i => i.nome.toLowerCase().includes(search.toLowerCase()))}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
-                contentContainerStyle={styles.list}
-                ListEmptyComponent={<Text style={styles.empty}>Nenhum item encontrado.</Text>}
-            />
+            {loading ? (
+                <Text style={styles.empty}>Carregando estoque...</Text>
+            ) : (
+                <FlatList
+                    data={filtered}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                    contentContainerStyle={styles.list}
+                    ListEmptyComponent={
+                        <Text style={styles.empty}>Nenhum item encontrado.</Text>
+                    }
+                />
+            )}
         </View>
     );
 }

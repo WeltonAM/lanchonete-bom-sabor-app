@@ -1,4 +1,7 @@
 import { AuthProvider } from '@/contexts/auth.context';
+import { InsumoProvider } from '@/contexts/insumo.context';
+import { ProdutoVendaProvider } from '@/contexts/produto-venda.context';
+import { VendaProvider } from '@/contexts/venda.context';
 import { useAuth } from '@/hooks/use-auth.hook';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useRouter, useSegments } from 'expo-router';
@@ -60,9 +63,15 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider style={{ flex: 1, backgroundColor: '#000' }}>
       <AuthProvider>
-        <StatusBar style="light" translucent={true} backgroundColor="transparent" />
-        <InitialLayout />
+        <InsumoProvider>
+          <ProdutoVendaProvider>
+            <VendaProvider>
+              <StatusBar style="light" translucent backgroundColor="transparent" />
+              <InitialLayout />
+            </VendaProvider>
+          </ProdutoVendaProvider>
+        </InsumoProvider>
       </AuthProvider>
-    </SafeAreaProvider>
+    </SafeAreaProvider >
   );
 }

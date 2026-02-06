@@ -18,20 +18,27 @@ lanchonete-bom-sabor-app/
 ├─ src/ ← LÓGICA DA APLICAÇÃO
 │ ├─ contexts/
 │ │ ├─ auth.context.tsx
-│ │ └─ theme.context.tsx
+│ │ ├─ venda.context.tsx
+│ │ ├─ insumo.context.tsx
+│ │ └─ produto-venda.context.tsx
 │ │
 │ ├─ services/
 │ │ ├─ firebase.ts
 │ │ ├─ auth.service.ts
-│ │ ├─ produtos.service.ts
-│ │ ├─ vendas.service.ts
-│ │ └─ estoque.service.ts
+│ │ ├─ insumo.service.ts
+│ │ ├─ produto-venda.service.ts
+│ │ └─ venda.service.ts
 │ │
 │ ├─ hooks/
-│ │ └─ useAuth.ts
+│ │ ├─ use-produto.hook.ts
+│ │ └─ use-venda.hook.ts
+│ │ ├─ use-auth.hook.ts
+│ │ ├─ use-insumo.hook.ts
+│ │ └─ use-sessao.hook.ts
 │ │
 │ ├─ types/
-│ │ ├─ Produto.ts
+│ │ ├─ ProdutoVenda.ts
+│ │ ├─ Insumo.ts
 │ │ ├─ Venda.ts
 │ │ └─ Usuario.ts
 │ │

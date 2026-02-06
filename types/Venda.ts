@@ -1,5 +1,5 @@
 export interface ItemVenda {
-  produtoId: string;
+  produtoVendaId: string;
   nome: string;
   quantidade: number;
   precoUnitario: number;
