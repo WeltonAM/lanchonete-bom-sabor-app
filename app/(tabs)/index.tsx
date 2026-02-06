@@ -99,7 +99,7 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   background: { ...StyleSheet.absoluteFillObject },
-  scrollContent: { padding: 20, paddingTop: 60 },
+  scrollContent: { padding: 20, paddingTop: 60, paddingBottom: 120 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

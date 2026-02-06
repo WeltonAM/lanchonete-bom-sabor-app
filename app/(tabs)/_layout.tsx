@@ -13,10 +13,9 @@ export default function TabsLayout() {
                     backgroundColor: '#000',
                     borderTopColor: '#1e293b',
                     borderTopWidth: 1,
-                    height: Platform.OS === 'android' ? 80 : 88,
+                    height: Platform.OS === 'android' ? 70 : 88,
                     paddingBottom: Platform.OS === 'android' ? 20 : 30,
                     paddingTop: 8,
-                    elevation: 0,
                 },
                 tabBarLabelStyle: {
                     fontSize: 11,

@@ -9,8 +9,10 @@ export default function RootLayout() {
   useEffect(() => {
     async function configureDesign() {
       if (Platform.OS === 'android') {
-        await NavigationBar.setBackgroundColorAsync('#000000');
-        await NavigationBar.setButtonStyleAsync('light');
+        await NavigationBar.setPositionAsync('absolute');
+        await NavigationBar.setBackgroundColorAsync('#00000000');
+        await NavigationBar.setButtonStyleAsync('dark');
+        await NavigationBar.setVisibilityAsync('visible');
       }
     }
     configureDesign();
@@ -18,7 +20,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider style={{ flex: 1, backgroundColor: '#000' }}>
-      <StatusBar style="light" translucent={false} backgroundColor="#000" />
+      <StatusBar style="light" translucent={true} backgroundColor="transparent" />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" />
         <Stack.Screen name="(tabs)" />
