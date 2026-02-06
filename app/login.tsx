@@ -1,8 +1,12 @@
+import { useAuth } from '@/hooks/use-auth.hook';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import {
+    ActivityIndicator,
+    Alert,
     KeyboardAvoidingView,
     Platform,
     StatusBar,
@@ -12,29 +16,61 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import { auth } from '../src/services/firebase';
 
 export default function Login() {
     const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { loginMock } = useAuth();
+    const [email, setEmail] = useState('admin@bomsabor.com');
+    const [password, setPassword] = useState('123456');
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = () => {
-        router.replace('/(tabs)');
+    const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert('Erro', 'Preencha todos os campos.');
+            return;
+        }
+
+        setLoading(true);
+
+        // --- LÓGICA DE VERIFICAÇÃO MOCK ---
+        // Você define qual e-mail e senha quer usar para o bypass
+        if (email.toLowerCase() === 'admin@bomsabor.com' && password === '123456') {
+            loginMock();
+
+            // Simulamos o tempo de resposta e redirecionamos
+            setTimeout(() => {
+                setLoading(false);
+                router.replace('/(tabs)');
+            }, 1000);
+            return; // IMPORTANTE: Para aqui e não tenta o Firebase
+        }
+
+        // --- LÓGICA REAL (Firebase) ---
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.replace('/(tabs)');
+        } catch (error: any) {
+            console.error(error);
+
+            // Tratamento de erro amigável
+            let mensagem = 'E-mail ou senha inválidos.';
+            if (error.code === 'auth/invalid-api-key') {
+                mensagem = 'Firebase não configurado. Use as credenciais mock.';
+            }
+
+            Alert.alert('Erro no Login', mensagem);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
+            <LinearGradient colors={['#0f172a', '#1e1b4b', '#000000']} style={styles.background} />
 
-            <LinearGradient
-                colors={['#0f172a', '#1e1b4b', '#000000']}
-                style={styles.background}
-            />
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.content}
-            >
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.content}>
                 <View style={styles.header}>
                     <View style={styles.logoCircle}>
                         <Ionicons name="fast-food" size={50} color="#00f2ff" />
@@ -54,6 +90,7 @@ export default function Login() {
                             onChangeText={setEmail}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            editable={!loading}
                         />
                     </View>
 
@@ -66,17 +103,21 @@ export default function Login() {
                             value={password}
                             onChangeText={setPassword}
                             secureTextEntry
+                            editable={!loading}
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.forgotPass}>
+
+                    {/* TODO: Fazer processo de recuperaçã de senha 
+                    <TouchableOpacity style={styles.forgotPass} disabled={loading}>
                         <Text style={styles.forgotPassText}>Esqueceu a senha?</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> 
+                    */}
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, loading && { opacity: 0.7 }]}
                         onPress={handleLogin}
-                        activeOpacity={0.7}
+                        disabled={loading}
                     >
                         <LinearGradient
                             colors={['#00f2ff', '#0066ff']}
@@ -84,7 +125,11 @@ export default function Login() {
                             end={{ x: 1, y: 0 }}
                             style={styles.buttonGradient}
                         >
-                            <Text style={styles.buttonText}>ENTRAR</Text>
+                            {loading ? (
+                                <ActivityIndicator color="#fff" />
+                            ) : (
+                                <Text style={styles.buttonText}>ENTRAR</Text>
+                            )}
                         </LinearGradient>
                     </TouchableOpacity>
                 </View>

@@ -16,11 +16,9 @@ lanchonete-bom-sabor-app/
 │ └─ historico.tsx
 │
 ├─ src/ ← LÓGICA DA APLICAÇÃO
-│ ├─ components/
-│ │ ├─ ButtonPrimary.tsx
-│ │ ├─ Input.tsx
-│ │ ├─ ProductCard.tsx
-│ │ └─ SaleItem.tsx
+│ ├─ contexts/
+│ │ ├─ auth.context.tsx
+│ │ └─ theme.context.tsx
 │ │
 │ ├─ services/
 │ │ ├─ firebase.ts

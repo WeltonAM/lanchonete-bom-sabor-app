@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/contexts/auth.context';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -12,7 +13,6 @@ export default function RootLayout() {
         await NavigationBar.setPositionAsync('absolute');
         await NavigationBar.setBackgroundColorAsync('#00000000');
         await NavigationBar.setButtonStyleAsync('dark');
-        await NavigationBar.setVisibilityAsync('visible');
       }
     }
     configureDesign();
@@ -20,11 +20,13 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider style={{ flex: 1, backgroundColor: '#000' }}>
-      <StatusBar style="light" translucent={true} backgroundColor="transparent" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="login" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
+      <AuthProvider>
+        <StatusBar style="light" translucent={true} backgroundColor="transparent" />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="login" />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
