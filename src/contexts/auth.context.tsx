@@ -6,6 +6,7 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 interface AuthContextData {
     user: User | null;
     loading: boolean;
+    error: string | null;
     loginMock: () => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -15,9 +16,9 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const { saveUserStorage, getUserStorage, removeUserStorage } = useStorage();
 
-    // Dados do usuário fake para desenvolvimento
     const mockUser = {
         uid: '123-mock',
         email: 'admin@bomsabor.com',
@@ -31,23 +32,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setUser(storedUser);
             }
 
-            const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-                if (firebaseUser) {
-                    setUser(firebaseUser);
-                    await saveUserStorage(firebaseUser);
-                } else {
-                    setUser((prev) => {
-                        if (prev?.uid === '123-mock') return prev;
-                        removeUserStorage();
-                        return null;
-                    });
+            const unsubscribe = onAuthStateChanged(auth,
+                async (firebaseUser) => {
+                    if (firebaseUser) {
+                        setUser(firebaseUser);
+                        await saveUserStorage(firebaseUser);
+                    } else {
+                        setUser((prev) => {
+                            if (prev?.uid === '123-mock') return prev;
+                            removeUserStorage();
+                            return null;
+                        });
+                    }
+                    setLoading(false);
+                },
+                (err) => {
+                    console.log("Observador de Auth: Firebase não configurado (esperado se estiver usando mock).");
+                    setLoading(false);
                 }
-                setLoading(false);
-            });
+            );
 
             return unsubscribe;
-        } catch (error) {
-            console.error("Erro ao inicializar Auth:", error);
+        } catch (err: any) {
+            setError("Firebase offline. Use o login Mock.");
             setLoading(false);
         }
     }, [getUserStorage, saveUserStorage, removeUserStorage]);
@@ -58,8 +65,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const loginMock = async () => {
         setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
+        // Pequeno delay para simular rede
+        await new Promise(resolve => setTimeout(resolve, 800));
         setUser(mockUser);
         await saveUserStorage(mockUser);
         setLoading(false);
@@ -68,9 +75,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = async () => {
         setLoading(true);
         try {
-            await auth.signOut();
+            if (user?.uid !== '123-mock') {
+                await auth.signOut();
+            }
         } catch (e) {
-            console.log("Firebase SignOut ignorado" + e);
+            console.log("SignOut Firebase ignorado.");
         } finally {
             await removeUserStorage();
             setUser(null);
@@ -79,7 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, loginMock, logout }}>
+        <AuthContext.Provider value={{ user, loading, error, loginMock, logout }}>
             {children}
         </AuthContext.Provider>
     );

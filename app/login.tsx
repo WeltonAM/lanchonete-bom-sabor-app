@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
@@ -20,43 +20,50 @@ import { auth } from '../src/services/firebase';
 
 export default function Login() {
     const router = useRouter();
-    const { loginMock } = useAuth();
+    const { loginMock, error: configError } = useAuth();
     const [email, setEmail] = useState('admin@bomsabor.com');
     const [password, setPassword] = useState('123456');
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if (configError) {
+            Alert.alert(
+                "Aviso de Configuração",
+                "O serviço de autenticação real está indisponível. Por favor, utilize as credenciais de Admin para testar.",
+                [{ text: "OK" }]
+            );
+        }
+    }, [configError]);
+
     const handleLogin = async () => {
-        if (!email || !password) {
+        const cleanEmail = email.trim().toLowerCase();
+        const cleanPassword = password.trim();
+
+        if (!cleanEmail || !cleanPassword) {
             Alert.alert('Erro', 'Preencha todos os campos.');
             return;
         }
 
         setLoading(true);
 
-        // --- LÓGICA DE VERIFICAÇÃO MOCK ---
-        // Você define qual e-mail e senha quer usar para o bypass
-        if (email.toLowerCase() === 'admin@bomsabor.com' && password === '123456') {
-            loginMock();
-
-            // Simulamos o tempo de resposta e redirecionamos
-            setTimeout(() => {
-                setLoading(false);
-                router.replace('/(tabs)');
-            }, 1000);
-            return; // IMPORTANTE: Para aqui e não tenta o Firebase
-        }
-
-        // --- LÓGICA REAL (Firebase) ---
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            router.replace('/(tabs)');
-        } catch (error: any) {
-            console.error(error);
+            // --- LÓGICA DE VERIFICAÇÃO MOCK ---
+            if (cleanEmail === 'admin@bomsabor.com' && cleanPassword === '123456') {
+                await loginMock();
+                // O redirecionamento será feito pelo useEffect do _layout.tsx ao detectar o user
+                return;
+            }
 
-            // Tratamento de erro amigável
+            // --- LÓGICA REAL (Firebase) ---
+            await signInWithEmailAndPassword(auth, cleanEmail, cleanPassword);
+
+        } catch (error: any) {
             let mensagem = 'E-mail ou senha inválidos.';
-            if (error.code === 'auth/invalid-api-key') {
-                mensagem = 'Firebase não configurado. Use as credenciais mock.';
+
+            if (error.code === 'auth/api-key-not-valid.-please-pass-a-valid-api-key.' || error.code === 'auth/api-key-not-valid') {
+                mensagem = 'Firebase não configurado corretamente. Use as credenciais de Admin (Mock).';
+            } else if (error.code === 'auth/network-request-failed') {
+                mensagem = 'Erro de conexão. Verifique sua internet.';
             }
 
             Alert.alert('Erro no Login', mensagem);
@@ -107,13 +114,6 @@ export default function Login() {
                         />
                     </View>
 
-
-                    {/* TODO: Fazer processo de recuperaçã de senha 
-                    <TouchableOpacity style={styles.forgotPass} disabled={loading}>
-                        <Text style={styles.forgotPassText}>Esqueceu a senha?</Text>
-                    </TouchableOpacity> 
-                    */}
-
                     <TouchableOpacity
                         style={[styles.button, loading && { opacity: 0.7 }]}
                         onPress={handleLogin}
@@ -139,99 +139,34 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#000',
-    },
-    background: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 30,
-    },
-    header: {
-        alignItems: 'center',
-        marginBottom: 50,
-    },
+    container: { flex: 1, backgroundColor: '#000' },
+    background: { ...StyleSheet.absoluteFillObject },
+    content: { flex: 1, justifyContent: 'center', padding: 30 },
+    header: { alignItems: 'center', marginBottom: 50 },
     logoCircle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 100, height: 100, borderRadius: 50,
         backgroundColor: 'rgba(0, 242, 255, 0.1)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#00f2ff',
-        shadowColor: "#00f2ff",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.8,
-        shadowRadius: 15,
-        elevation: 10,
-        marginBottom: 20,
+        justifyContent: 'center', alignItems: 'center',
+        borderWidth: 1, borderColor: '#00f2ff',
+        shadowColor: "#00f2ff", shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8, shadowRadius: 15, elevation: 10, marginBottom: 20,
     },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#fff',
-        letterSpacing: 1,
-    },
-    subtitle: {
-        fontSize: 14,
-        color: '#94a3b8',
-        marginTop: 5,
-    },
-    form: {
-        width: '100%',
-    },
+    title: { fontSize: 32, fontWeight: 'bold', color: '#fff', letterSpacing: 1 },
+    subtitle: { fontSize: 14, color: '#94a3b8', marginTop: 5 },
+    form: { width: '100%' },
     inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'row', alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        borderRadius: 12,
-        marginBottom: 15,
-        paddingHorizontal: 15,
-        borderWidth: 1,
-        borderColor: 'rgba(0, 242, 255, 0.2)',
+        borderRadius: 12, marginBottom: 15, paddingHorizontal: 15,
+        borderWidth: 1, borderColor: 'rgba(0, 242, 255, 0.2)',
     },
-    icon: {
-        marginRight: 10,
-    },
-    input: {
-        flex: 1,
-        height: 55,
-        color: '#fff',
-        fontSize: 16,
-    },
-    forgotPass: {
-        alignSelf: 'flex-end',
-        marginBottom: 30,
-    },
-    forgotPassText: {
-        color: '#00f2ff',
-        fontSize: 14,
-        opacity: 0.8,
-    },
+    icon: { marginRight: 10 },
+    input: { flex: 1, height: 55, color: '#fff', fontSize: 16 },
     button: {
-        height: 55,
-        borderRadius: 12,
-        overflow: 'hidden',
-        shadowColor: "#00f2ff",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 10,
-        elevation: 8,
+        height: 55, borderRadius: 12, overflow: 'hidden',
+        shadowColor: "#00f2ff", shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4, shadowRadius: 10, elevation: 8, marginTop: 10
     },
-    buttonGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-        letterSpacing: 2,
-    },
+    buttonGradient: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold', letterSpacing: 2 },
 });

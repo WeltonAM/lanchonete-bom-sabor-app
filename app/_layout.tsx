@@ -4,11 +4,11 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { ActivityIndicator, Platform, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 function InitialLayout() {
-  const { user, loading } = useAuth();
+  const { user, loading, error } = useAuth();
   const segments = useSegments();
   const router = useRouter();
 
@@ -28,6 +28,11 @@ function InitialLayout() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
         <ActivityIndicator size="large" color="#00f2ff" />
+        {error && (
+          <Text style={{ color: '#ef4444', marginTop: 10, textAlign: 'center', paddingHorizontal: 20 }}>
+            {error}
+          </Text>
+        )}
       </View>
     );
   }

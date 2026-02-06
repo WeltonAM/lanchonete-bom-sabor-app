@@ -8,7 +8,7 @@ export function useStorage() {
     try {
       await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
     } catch (e) {
-      console.error("Erro ao salvar sessão no Storage", e);
+      // console.error("Erro ao salvar sessão no Storage", e);
     }
   }, []);
 
@@ -17,7 +17,7 @@ export function useStorage() {
       const user = await AsyncStorage.getItem(USER_STORAGE_KEY);
       return user ? JSON.parse(user) : null;
     } catch (e) {
-      console.error("Erro ao buscar sessão no Storage", e);
+      // console.error("Erro ao buscar sessão no Storage", e);
       return null;
     }
   }, []);
@@ -26,7 +26,7 @@ export function useStorage() {
     try {
       await AsyncStorage.removeItem(USER_STORAGE_KEY);
     } catch (e) {
-      console.error("Erro ao remover sessão no Storage", e);
+      // console.error("Erro ao remover sessão no Storage", e);
     }
   }, []);
 
