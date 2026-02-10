@@ -1,177 +1,230 @@
+<div align="center">
+    <h1>🍔 Lanchonete Bom Sabor – App Mobile de Controle de Vendas e Estoque</h1>
+  <a href="https://react.dev/" target="_blank">
+    <img src="https://img.shields.io/badge/React_Native-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React Native Badge">
+  </a>
+  <a href="https://www.typescriptlang.org/" target="_blank">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Badge">
+  </a>
+  <a href="https://firebase.google.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase Badge">
+  </a>
+  <a href="#" target="_blank">
+    <img src="https://img.shields.io/badge/license-Educational-blue?style=for-the-badge" alt="License Badge">
+  </a>
+</div>
+
+---
+
+## 🚀 Sobre o Projeto
+
+Este projeto é parte da **atividade avaliativa extracurricular** da disciplina **Programação para Dispositivos Móveis (7º semestre – Faculdade Estácio)**, com foco em desenvolver um **aplicativo Android para controle de vendas e estoque** em uma lanchonete local.
+
+O aplicativo foi projetado para **simplificar o fluxo operacional**, automatizando registro de vendas, controle de estoque, relatórios básicos e autenticação de usuários, contribuindo para a **eficiência econômica e redução de erros** na gestão do estabelecimento.
+
+---
+
+## 🧾 Diagnóstico e Teorização
+
+### 1. Identificação das Partes Envolvidas
+
+- **Nome do Projeto:** Sistema móvel de controle de vendas e estoque para lanchonete local
+- **Parceiro Comunitário (Fictício):** Lanchonete Bom Sabor
+  - Endereço: Rua Exemplo, 123, Bairro Centro, Cidade/UF
+  - CNPJ: 12.345.678/0001-90
+  - Website: [lanchonetebomsabor.exemplo](https://lanchonetebomsabor.exemplo)
+- **Principais Colaboradores:**
+  - João Silva — proprietário / gestor operacional — +55 (XX) 9XXXX-XXXX
+  - Maria Souza — caixa / responsável por estoque
+  - Carlos Pereira — cozinheiro (usuário final)
+- **Perfil socioeconômico:**
+  - Faixa etária: 25–55 anos
+  - Escolaridade: Ensino médio completo (maioria)
+  - Gênero: misto
+  - Observação: interface simples e clara necessária, resistência inicial a telas complexas
+
+### 2. Situação-Problema
+
+A lanchonete registra vendas e estoques de forma manual (caderneta ou Excel), gerando:
+
+- Erros de registro e troca de valores
+- Desperdício por validade e compras excessivas
+- Dificuldade de previsão de compras
+- Atrasos no fechamento de caixa e inconsistência entre caixa e estoque
+
+### 3. Demanda Sociocomunitária e Motivação Acadêmica
+
+**Impacto comunitário:** melhora da gestão financeira, redução de desperdícios e ganhos de eficiência operacional.  
+**Motivação acadêmica:** aplicar conceitos de **programação móvel**, design de UI/UX, persistência de dados com **Firebase**, testes unitários, integração com backend, e avaliação prática de software.
+
+### 4. Objetivos
+
+**Objetivo geral:** Desenvolver e implantar um aplicativo Android para controle de vendas e estoque, com autenticação e relatórios básicos.
+
+**Objetivos específicos:**
+
+- Cadastro de produtos com código, preço e estoque (até 4 semanas)
+- Registro de vendas com decremento automático do estoque e recibo digital (até 6 semanas)
+- Treinamento de 3 funcionários em 1 sessão presencial (2h) até 10 semanas
+- Redução de divergências entre vendas e estoque ≥50% em 4 semanas pós-implantação
+
+---
+
+## 🛠️ Planejamento e Desenvolvimento
+
+### 1. Cronograma
+
+| Semana | Atividade                                             |
+| ------ | ----------------------------------------------------- |
+| 1      | Levantamento de requisitos (entrevistas + observação) |
+| 2      | Modelagem de dados e protótipos (Figma)               |
+| 3      | Configuração do projeto (Expo) e Firebase             |
+| 4      | Implementação de telas de produtos e estoque          |
+| 5      | Implementação da tela de vendas e lógica de estoque   |
+| 6      | Implementação de relatórios e histórico de vendas     |
+| 7      | Testes unitários e TDD em funções críticas            |
+| 8      | Ajustes de usabilidade e correções                    |
+| 9      | Testes beta com usuários na lanchonete                |
+| 10     | Treinamento prático dos funcionários                  |
+| 11     | Coleta de feedback e ajustes finais                   |
+| 12     | Entrega final, relatório e evidências                 |
+
+### 2. Metodologia
+
+- **Coleta de requisitos:** entrevistas semiestruturadas + observação direta
+- **Protótipos:** telas de baixa/média fidelidade no Figma
+- **Desenvolvimento:** React Native + Expo + Firebase (Authentication + Firestore)
+- **Qualidade:** testes unitários (Jest) e testes manuais
+- **Treinamento e entrega:** sessão prática com manual rápido em PDF
+- **Avaliação:** comparação antes/depois dos indicadores + questionário de satisfação
+
+### 3. Avaliação dos Resultados
+
+- Planilhas de comparação (vendas/estoque 4 semanas antes x 4 semanas depois)
+- Questionário de satisfação (Likert 1–5)
+- Observação direta (tempo médio de fechamento de caixa)
+
+**Indicadores-chave:**
+
+- % de redução de divergências estoque x vendas
+- Tempo médio de fechamento de caixa
+- Satisfação média dos usuários (meta ≥4)
+- Número de erros de operação por semana
+
+---
+
+## 📂 Estrutura do Projeto
+
+```text
 lanchonete-bom-sabor-app/
-├─ app/ ← SOMENTE UI + rotas
-│ ├─ \_layout.tsx
-│ ├─ login.tsx
-│ ├─ (tabs)/
-│ │ ├─ \_layout.tsx
-│ │ ├─ index.tsx
-│ │ ├─ venda.tsx
-│ │ ├─ produtos.tsx
-│ │ ├─ estoque.tsx
-│ │ └─ relatorios.tsx
-│ ├─ insumo/
-│ │ ├─ insumo-form.tsx
-│ │ └─ index.tsx
-│ ├─ produto/
-│ │ ├─ index.tsx
-│ │ └─ produto-form.tsx
-│
-├─ src/ ← LÓGICA DA APLICAÇÃO
-│ ├─ contexts/
-│ │ ├─ auth.context.tsx
-│ │ ├─ venda.context.tsx
-│ │ ├─ insumo.context.tsx
-│ │ └─ produto-venda.context.tsx
-│ │
-│ ├─ services/
-│ │ ├─ firebase.ts
-│ │ ├─ auth.service.ts
-│ │ ├─ insumo.service.ts
-│ │ ├─ produto-venda.service.ts
-│ │ └─ venda.service.ts
-│ │
-│ ├─ hooks/
-│ │ ├─ use-produto.hook.ts
-│ │ └─ use-venda.hook.ts
-│ │ ├─ use-auth.hook.ts
-│ │ ├─ use-insumo.hook.ts
-│ │ └─ use-sessao.hook.ts
-│ │
-│ ├─ types/
-│ │ ├─ ProdutoVenda.ts
-│ │ ├─ Insumo.ts
-│ │ ├─ Venda.ts
-│ │ └─ Usuario.ts
-│ │
-│ └─ utils/
-│ ├─ formatCurrency.ts
-│ └─ dates.ts
-│
-├─ assets/
-│ └─ images/
-│
+├─ app/ -> UI e rotas
+├─ src/ -> Lógica da aplicação (contexts, services, hooks, types, utils)
+├─ assets/images/ -> Recursos visuais
 ├─ tsconfig.json
 ├─ package.json
 └─ README.md
+```
 
-1 - DIAGNÓSTICO E TEORIZAÇÃO
+---
 
-1.1 - Identificação das partes envolvidas e parceiros
-Descrever as partes envolvidas no projeto, identificando o público da comunidade local que será impactado pela atividade. Exemplo: colaboradores de uma pequena lanchonete local que atualmente controlam suas vendas e estoque manualmente, com dados de perfil socioeconômico, escolaridade, gênero, faixa etária e outros. Incluir informações como nome, endereço, CNPJ, website e os principais colaboradores envolvidos.
-Nome do projeto: Sistema móvel de controle de vendas e estoque para lanchonete local
-Parceiro comunitário (Fictício):
+## ⚡ Tecnologias e Conceitos
 
-Nome: Lanchonete Bom Sabor
+| Categoria                   | Ferramentas / Conceitos                  |
+| --------------------------- | ---------------------------------------- |
+| **Framework**               | React Native + Expo                      |
+| **Linguagem**               | TypeScript                               |
+| **Backend / DB**            | Firebase Authentication + Firestore      |
+| **UI/UX**                   | React Navigation, componentes funcionais |
+| **Gerenciamento de estado** | Context API                              |
+| **Testes**                  | Jest (unitários)                         |
+| **Utilitários**             | Formatação de moeda e datas              |
 
-Endereço: Rua Exemplo, 123, Bairro Centro, Cidade/UF
+---
 
-CNPJ: 12.345.678/0001-90
+## ⚙️ Como Rodar
 
-Website: https://lanchonetebomsabor.exemplo
+Instalar dependências:
 
-Principais colaboradores envolvidos:
+```bash
+npm install
+```
 
-João Silva — proprietário / gestor operacional — +55 (XX) 9XXXX-XXXX
+Rodar o servidor de desenvolvimento:
 
-Maria Souza — caixa / responsável por estoque
+```bash
+npm run start
+```
 
-Carlos Pereira — cozinheiro (usuário final)
+Executar testes:
 
-Perfil socioeconômico (exemplo):
+```bash
+npm run test
+```
 
-Faixa etária dos colaboradores: 25–55 anos
+---
 
-Escolaridade: Ensino médio completo (maioria)
+## 🪪 Evidências do Projeto
 
-Gênero: misto
+- Capturas de tela das telas do aplicativo
+- Vídeos de uso e demonstração na lanchonete
+- Lista de presença da sessão de treinamento
+- Links para o repositório GitHub com código fonte
+- Relatórios de feedback e planilhas de indicadores
 
-Observação: sistema deverá ser simples, com UI clara; haverá resistência inicial a telas complexas.
+**Termo de Responsabilidade:**
 
-1.2 - Situação-problema identificada
-Apresentar os problemas identificados na comunidade que motivam a atividade. Exemplo: a lanchonete enfrenta desafios significativos na gestão das vendas e controle de estoque devido ao registro manual, o que gera erros, desperdício e dificuldades de previsão de compras.
-A lanchonete registra vendas e estoques de forma manual (caderneta/excel local). Isso gera:
+> Atesto que esta Atividade de Extensão foi realizada com participação efetiva da comunidade, conforme relatório apresentado no Laboratório de Extensão da Sala de Aula Virtual, sendo de autoria própria e entregue dentro do prazo acadêmico.
 
-erros de registro (troca de valores, itens não registrados);
+---
 
-desperdício por validade e compras em excesso;
+## 🌟 Melhorias Futuras
 
-dificuldade de previsão de compras;
+- Integração de QR Code para vendas rápidas
+- Dashboard de indicadores em tempo real
+- Relatórios gráficos de vendas e estoque
+- Notificações de produtos próximos da validade
 
-atrasos no fechamento do caixa e inconsistência entre caixa e estoque.
+---
 
-1.3 - Demanda sociocomunitária e motivação acadêmica
-Explicar como a situação-problema afeta a vida econômica e operacional da comunidade e como a implementação de um aplicativo Android pode solucionar essas questões. Ressaltar que a atividade permite a aplicação prática de técnicas de programação, design de software e gestão, contribuindo para a formação acadêmica e técnica do aluno.
-Impacto comunitário: melhoria da gestão financeira, redução de desperdício, ganhos de eficiência; melhoria na renda do estabelecimento.
-Motivação acadêmica: aplicar conceitos de programação móvel (React Native), design de UI/UX, persistência de dados (Firebase), integração com backend (Firestore), testes (TDD/automatizados), e práticas de avaliação — tudo compatível com competências da disciplina.
+## 🖼️ Galeria do Projeto
 
-1.4 - Objetivos a serem alcançados em relação à situação-problema identificada
-Definir objetivos claros e mensuráveis, como desenvolver um aplicativo de controle de vendas até o final do semestre, treinar os funcionários da lanchonete no uso do sistema e reduzir os erros de vendas e controle de estoque.
-Objetivo geral: Desenvolver e implantar até o final do semestre um aplicativo Android para controle de vendas e estoque da lanchonete, com autenticação de usuários e relatórios básicos.
+A seguir, algumas imagens das telas e do desenvolvimento do aplicativo:
 
-Objetivos específicos (mensuráveis):
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
 
-Ter funcionalidade de cadastro de produtos com código, preço e estoque em até 4 semanas.
+  <div style="flex: 1 1 45%; text-align: center;">
+    <img src="assets/1.jpg" alt="Tela de Login" style="max-width: 30%; height: auto; border-radius: 8px;">
+    <p>Tela de Login</p>
+  </div>
 
-Implementar registro de vendas que decrementa o estoque automaticamente e gera recibo digital até 6 semanas.
+  <div style="flex: 1 1 45%; text-align: center;">
+    <img src="assets/2.jpg" alt="Tela Principal / Tabs" style="max-width: 30%; height: auto; border-radius: 8px;">
+    <p>Tela Principal / Tabs</p>
+  </div>
 
-Treinar 3 funcionários no uso do app em 1 sessão presencial (2h) até 10 semanas.
+  <div style="flex: 1 1 45%; text-align: center;">
+    <img src="assets/3.jpg" alt="Listagem e cadastro de Insumos" style="max-width: 30%; height: auto; border-radius: 8px;">
+    <p>Listagem e cadastro de Insumos</p>
+  </div>
 
-Reduzir divergências entre registro de vendas e estoque em ≥50% no período de 4 semanas pós-implantação (comparar com base anterior).
+  <div style="flex: 1 1 45%; text-align: center;">
+    <img src="assets/4.jpg" alt="Listamento e cadastro de Produtos Venda" style="max-width: 30%; height: auto; border-radius: 8px;">
+    <p>Listamento e cadastro de Produtos Venda</p>
+  </div>
 
-2 - PLANEJAMENTO PARA DESENVOLVIMENTO DO PROJETO
+</div>
 
-2.1 - Plano de trabalho com cronograma das atividades
-Descrever detalhadamente o plano de trabalho, especificando as ações a serem realizadas, prazos e os recursos necessários. Exemplo: Ação 1 - Levantar requisitos junto aos colaboradores da lanchonete; Ação 2 - Modelar e desenvolver o aplicativo utilizando tecnologia Android (ex.: programação em Kotlin, uso de Firebase); Ação 3 - Testar o aplicativo com dados reais e ajustar funcionalidades; Ação 4 - Realizar treinamento prático para os funcionários; Ação 5 - Aplicar pesquisa de satisfação para mensurar os resultados.
-Semana | Atividade
+---
 
-1 Levantamento de requisitos com colaboradores (entrevista + observação)
-2 Modelagem de dados e protótipos (Figma): telas principais
-3 Configuração do projeto (Expo), Firebase, autenticação
-4 Implementação: telas de produtos e estoque
-5 Implementação: tela de vendas (carrinho) e lógica de atualização de estoque
-6 Implementação: relatórios e histórico de vendas
-7 Testes unitários e TDD em funções críticas (cadastro/ajuste de estoque)
-8 Ajustes de usabilidade, correções e tradução (pt-BR)
-9 Testes com usuários (beta) na lanchonete com dados reais
-10 Treinamento prático dos funcionários (sessão presencial)
-11 Coleta de feedback e ajustes finais
-12 Entrega final, relatório, evidências e aplicação da pesquisa de satisfação
+## 🪪 License
 
-2.2 - Metodologia
-Descrever os métodos utilizados para a realização da atividade, como entrevistas, observação, modelagem de protótipos (ex.: Figma), programação em linguagem Kotlin e Test-Driven Development (TDD). Explicar como esses métodos serão aplicados para coletar requisitos, desenvolver e testar o aplicativo, além de capacitar os usuários.
-Coleta de requisitos: entrevistas semiestruturadas com colaboradores; observação direta do fluxo de vendas.
+Este projeto é destinado a **fins educacionais e acadêmicos**, podendo ser explorado e adaptado, com devido crédito ao autor.
 
-Projeto e prototipagem: criar telas de baixa/média fidelidade no Figma; validar com usuários.
+---
 
-Desenvolvimento: React Native com Expo (rápido para provar conceito) + Firebase (Authentication + Firestore).
+<br>
+<br>
 
-Qualidade: testes unitários (Jest) para funções de negócio; testes manuais com checklist.
-
-Entrega / Treinamento: sessão prática com checklist de uso; manual rápido em PDF.
-
-Avaliação: comparação antes/depois nos indicadores de vendas/estoque + questionário de satisfação.
-
-2.3 - Avaliação dos resultados alcançados
-Definir os instrumentos e indicadores para avaliar os resultados da atividade. Exemplo: comparar os registros de vendas e controle de estoque antes e depois da implementação, aplicar questionários de satisfação com os colaboradores e realizar observação direta da melhoria na eficiência operacional.
-Planilha de comparação (vendas e estoque — 4 semanas antes vs 4 semanas depois).
-
-Questionário de satisfação (Likert 1–5) para funcionários.
-
-Observação direta — tempos médios de fechamento de caixa.
-Indicadores-chave:
-
-% de redução em divergências estoque x vendas.
-
-Tempo médio de fechamento de caixa (minutos).
-
-Satisfação média dos usuários (≥4 é meta).
-
-Número de erros de operação detectados por semana.
-
-3 - ENCERRAMENTO DO PROJETO
-
-3.1 - Evidências das atividades realizadas
-Incluir evidências documentais do processo de desenvolvimento da atividade, como fotografias, capturas de tela, vídeos, e-mails trocados, links para o repositório do código (por exemplo, no GitHub) e listas de presença. Cada evidência deve ser acompanhada de uma descrição detalhada que contextualize o momento registrado, a data, o local e sua relevância para o projeto.
-
-Termo de Responsabilidade
-Atesto, para os devidos fins, que a Atividade de Extensão foi realizada com a participação efetiva da comunidade no local descrito e conforme relato apresentado no Laboratório de Extensão da Sala de Aula Virtual, gerando texto de autoria própria e sendo entregue dentro do prazo estabelecido no calendário acadêmico vigente.
+<p align="center">
+  <i>Soli Deo Gloria</i>
+</p>
