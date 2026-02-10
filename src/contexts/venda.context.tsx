@@ -1,21 +1,35 @@
 import { useAuth } from "@/hooks/use-auth.hook";
 import { vendasService } from "@/services/venda.service";
 import React, { createContext, useCallback, useEffect, useState } from "react";
+import { Insumo } from "types/Insumo";
+import { ProdutoVenda } from "types/ProdutoVenda";
 import { Venda } from "types/Venda";
+
+interface CriarVendaDTO {
+    itens: Venda["itens"];
+    total: number;
+    metodoPagamento: Venda["metodoPagamento"];
+}
 
 interface VendaContextData {
     vendas: Venda[];
     loading: boolean;
     error: string | null;
+
     listarVendas: () => Promise<void>;
+
+    criarVenda: (
+        venda: CriarVendaDTO,
+        produtos: ProdutoVenda[],
+        insumos: Insumo[]
+    ) => Promise<void>;
+
     totalVendasDia: number;
     pedidosRealizados: number;
     itensVendidos: number;
 }
 
-export const VendaContext = createContext<VendaContextData>(
-    {} as VendaContextData
-);
+export const VendaContext = createContext({} as VendaContextData);
 
 export function VendaProvider({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
@@ -44,6 +58,42 @@ export function VendaProvider({ children }: { children: React.ReactNode }) {
         listarVendas();
     }, [listarVendas]);
 
+    const criarVenda = useCallback(
+        async (
+            venda: CriarVendaDTO,
+            produtos: ProdutoVenda[],
+            insumos: Insumo[]
+        ) => {
+            if (!user) return;
+
+            setLoading(true);
+            setError(null);
+
+            const novaVenda: Venda = {
+                ...venda,
+                usuarioId: user.uid,
+                data: new Date(),
+            };
+
+            try {
+                await vendasService.registrarVenda(
+                    user.uid,
+                    novaVenda,
+                    produtos,
+                    insumos
+                );
+
+                setVendas((prev) => [...prev, novaVenda]);
+            } catch (e: any) {
+                setError(e.message ?? "Erro ao registrar venda");
+                throw e;
+            } finally {
+                setLoading(false);
+            }
+        },
+        [user]
+    );
+
     const hoje = new Date().toDateString();
 
     const vendasHoje = vendas.filter(
@@ -60,10 +110,7 @@ export function VendaProvider({ children }: { children: React.ReactNode }) {
     const itensVendidos = vendasHoje.reduce((total, venda) => {
         return (
             total +
-            venda.itens.reduce(
-                (sub, item) => sub + item.quantidade,
-                0
-            )
+            venda.itens.reduce((sub, item) => sub + item.quantidade, 0)
         );
     }, 0);
 
@@ -74,6 +121,7 @@ export function VendaProvider({ children }: { children: React.ReactNode }) {
                 loading,
                 error,
                 listarVendas,
+                criarVenda,
                 totalVendasDia,
                 pedidosRealizados,
                 itensVendidos,
