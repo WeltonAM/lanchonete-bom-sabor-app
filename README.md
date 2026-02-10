@@ -173,22 +173,22 @@ A seguir, algumas imagens das telas e do desenvolvimento do aplicativo:
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
 
   <div style="flex: 1 1 20%; text-align: center;">
-    <img src="assets/1.jpg" alt="Tela de Login" style="max-width: 15%; height: auto; border-radius: 8px;">
+    <img src="assets/1.jpg" alt="Tela de Login" style="width: 30%; height: auto; border-radius: 8px;">
     <p>Tela de Login</p>
   </div>
 
   <div style="flex: 1 1 20%; text-align: center;">
-    <img src="assets/2.jpg" alt="Tela Principal / Tabs" style="max-width: 15%; height: auto; border-radius: 8px;">
+    <img src="assets/2.jpg" alt="Tela Principal / Tabs" style="width: 30%; height: auto; border-radius: 8px;">
     <p>Tela Principal / Tabs</p>
   </div>
 
   <div style="flex: 1 1 20%; text-align: center;">
-    <img src="assets/3.jpg" alt="Listagem e cadastro de Insumos" style="max-width: 15%; height: auto; border-radius: 8px;">
+    <img src="assets/3.jpg" alt="Listagem e cadastro de Insumos" style="width: 30%; height: auto; border-radius: 8px;">
     <p>Listagem e cadastro de Insumos</p>
   </div>
 
   <div style="flex: 1 1 20%; text-align: center;">
-    <img src="assets/4.jpg" alt="Listamento e cadastro de Produtos Venda" style="max-width: 15%; height: auto; border-radius: 8px;">
+    <img src="assets/4.jpg" alt="Listamento e cadastro de Produtos Venda" style="width: 30%; height: auto; border-radius: 8px;">
     <p>Listamento e cadastro de Produtos Venda</p>
   </div>
 
