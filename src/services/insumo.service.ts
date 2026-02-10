@@ -83,7 +83,7 @@ export const insumoService = {
   async listar(userId: string): Promise<Insumo[]> {
     if (userId === MOCK_USER_ID) {
       console.log("📦 Usando INSUMOS mockados");
-      return MOCK_INSUMOS;
+      return [...MOCK_INSUMOS];
     }
 
     const ref = collection(db, "insumos");

@@ -143,7 +143,7 @@ export const vendasService = {
   async listar(userId: string): Promise<Venda[]> {
     if (userId === "123-mock") {
       console.log("💰 Usando VENDAS mockadas");
-      return MOCK_VENDAS;
+      return [...MOCK_VENDAS];
     }
 
     const snapshot = await getDocs(collection(db, "vendas"));

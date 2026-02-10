@@ -105,7 +105,12 @@ export default function Dashboard() {
 
         <TouchableOpacity
           style={styles.actionRow}
-          onPress={() => router.push('/produto/novo')}
+          onPress={() =>
+            router.push({
+              pathname: '/(tabs)/produtos',
+              params: { novo: 'true' },
+            })
+          }
         >
           <View style={[styles.actionIcon, { backgroundColor: '#1e293b' }]}>
             <Ionicons name="add-circle-outline" size={24} color="#00f2ff" />

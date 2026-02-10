@@ -13,8 +13,8 @@ lanchonete-bom-sabor-app/
 │ │ ├─ insumo-form.tsx
 │ │ └─ index.tsx
 │ ├─ produto/
-│ │ ├─ novo.tsx
-│ │ └─ [id].tsx
+│ │ ├─ index.tsx
+│ │ └─ produto-form.tsx
 │
 ├─ src/ ← LÓGICA DA APLICAÇÃO
 │ ├─ contexts/

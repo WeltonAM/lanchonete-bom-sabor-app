@@ -11,7 +11,16 @@ import {
 import { ProdutoVenda } from "types/ProdutoVenda";
 import { db } from "./firebase";
 
-const MOCK_PRODUTOS_VENDA: ProdutoVenda[] = [
+const MOCK_USER_ID = "123-mock";
+
+let produtoIdCounter = 1000;
+
+function nextProdutoMockId() {
+  produtoIdCounter += 1;
+  return `p${produtoIdCounter}`;
+}
+
+let MOCK_PRODUTOS_VENDA: ProdutoVenda[] = [
   {
     id: "p1",
     nome: "Hambúrguer Artesanal",
@@ -37,8 +46,9 @@ const MOCK_PRODUTOS_VENDA: ProdutoVenda[] = [
 
 export const produtoVendaService = {
   async listar(userId: string): Promise<ProdutoVenda[]> {
-    if (userId === "123-mock") {
-      return MOCK_PRODUTOS_VENDA;
+    if (userId === MOCK_USER_ID) {
+      console.log("📦 Usando PRODUTOS mockados");
+      return [...MOCK_PRODUTOS_VENDA];
     }
 
     const q = query(
@@ -53,7 +63,17 @@ export const produtoVendaService = {
   },
 
   async criar(userId: string, produto: ProdutoVenda) {
-    if (userId === "123-mock") return;
+    if (userId === MOCK_USER_ID) {
+      console.log("🧪 Mock: criando produto (memória)");
+
+      const novo: ProdutoVenda = {
+        ...produto,
+        id: nextProdutoMockId(),
+      };
+
+      MOCK_PRODUTOS_VENDA.push(novo);
+      return;
+    }
 
     await addDoc(collection(db, "produtosVenda"), {
       ...produto,
@@ -62,7 +82,16 @@ export const produtoVendaService = {
   },
 
   async atualizar(userId: string, id: string, produto: ProdutoVenda) {
-    if (userId === "123-mock") return;
+    if (userId === MOCK_USER_ID) {
+      console.log("🧪 Mock: atualizando produto (memória)");
+
+      const index = MOCK_PRODUTOS_VENDA.findIndex((p) => p.id === id);
+      if (index >= 0) {
+        MOCK_PRODUTOS_VENDA[index] = produto;
+      }
+
+      return;
+    }
 
     await updateDoc(doc(db, "produtosVenda", id), {
       ...produto,
@@ -71,7 +100,12 @@ export const produtoVendaService = {
   },
 
   async remover(userId: string, id: string) {
-    if (userId === "123-mock") return;
+    if (userId === MOCK_USER_ID) {
+      console.log("🧪 Mock: removendo produto (memória)");
+
+      MOCK_PRODUTOS_VENDA = MOCK_PRODUTOS_VENDA.filter((p) => p.id !== id);
+      return;
+    }
 
     await deleteDoc(doc(db, "produtosVenda", id));
   },
