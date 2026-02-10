@@ -84,6 +84,15 @@ export const commonStyles = StyleSheet.create({
         borderRadius: 6,
         gap: 4
     },
+    input: {
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        borderRadius: 12,
+        padding: 14,
+        color: '#fff',
+        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+    },
 });
 
 const styles = StyleSheet.create({
