@@ -65,7 +65,6 @@ A lanchonete registra vendas e estoques de forma manual (caderneta ou Excel), ge
 
 - Cadastro de produtos com código, preço e estoque (até 4 semanas)
 - Registro de vendas com decremento automático do estoque e recibo digital (até 6 semanas)
-- Treinamento de 3 funcionários em 1 sessão presencial (2h) até 10 semanas
 - Redução de divergências entre vendas e estoque ≥50% em 4 semanas pós-implantação
 
 ---
@@ -82,19 +81,14 @@ A lanchonete registra vendas e estoques de forma manual (caderneta ou Excel), ge
 | 4      | Implementação de telas de produtos e estoque          |
 | 5      | Implementação da tela de vendas e lógica de estoque   |
 | 6      | Implementação de relatórios e histórico de vendas     |
-| 7      | Testes unitários e TDD em funções críticas            |
-| 8      | Ajustes de usabilidade e correções                    |
-| 9      | Testes beta com usuários na lanchonete                |
-| 10     | Treinamento prático dos funcionários                  |
-| 11     | Coleta de feedback e ajustes finais                   |
-| 12     | Entrega final, relatório e evidências                 |
+| 7      | Coleta de feedback e ajustes finais                   |
+| 8      | Entrega final, relatório e evidências                 |
 
 ### 2. Metodologia
 
 - **Coleta de requisitos:** entrevistas semiestruturadas + observação direta
 - **Protótipos:** telas de baixa/média fidelidade no Figma
 - **Desenvolvimento:** React Native + Expo + Firebase (Authentication + Firestore)
-- **Qualidade:** testes unitários (Jest) e testes manuais
 - **Treinamento e entrega:** sessão prática com manual rápido em PDF
 - **Avaliação:** comparação antes/depois dos indicadores + questionário de satisfação
 
@@ -136,7 +130,6 @@ lanchonete-bom-sabor-app/
 | **Backend / DB**            | Firebase Authentication + Firestore      |
 | **UI/UX**                   | React Navigation, componentes funcionais |
 | **Gerenciamento de estado** | Context API                              |
-| **Testes**                  | Jest (unitários)                         |
 | **Utilitários**             | Formatação de moeda e datas              |
 
 ---
@@ -155,21 +148,7 @@ Rodar o servidor de desenvolvimento:
 npm run start
 ```
 
-Executar testes:
-
-```bash
-npm run test
-```
-
 ---
-
-## 🪪 Evidências do Projeto
-
-- Capturas de tela das telas do aplicativo
-- Vídeos de uso e demonstração na lanchonete
-- Lista de presença da sessão de treinamento
-- Links para o repositório GitHub com código fonte
-- Relatórios de feedback e planilhas de indicadores
 
 **Termo de Responsabilidade:**
 
@@ -183,6 +162,7 @@ npm run test
 - Dashboard de indicadores em tempo real
 - Relatórios gráficos de vendas e estoque
 - Notificações de produtos próximos da validade
+- Testes unitários e TDD em funções críticas
 
 ---
 
@@ -192,23 +172,23 @@ A seguir, algumas imagens das telas e do desenvolvimento do aplicativo:
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
 
-  <div style="flex: 1 1 45%; text-align: center;">
-    <img src="assets/1.jpg" alt="Tela de Login" style="max-width: 30%; height: auto; border-radius: 8px;">
+  <div style="flex: 1 1 20%; text-align: center;">
+    <img src="assets/1.jpg" alt="Tela de Login" style="max-width: 15%; height: auto; border-radius: 8px;">
     <p>Tela de Login</p>
   </div>
 
-  <div style="flex: 1 1 45%; text-align: center;">
-    <img src="assets/2.jpg" alt="Tela Principal / Tabs" style="max-width: 30%; height: auto; border-radius: 8px;">
+  <div style="flex: 1 1 20%; text-align: center;">
+    <img src="assets/2.jpg" alt="Tela Principal / Tabs" style="max-width: 15%; height: auto; border-radius: 8px;">
     <p>Tela Principal / Tabs</p>
   </div>
 
-  <div style="flex: 1 1 45%; text-align: center;">
-    <img src="assets/3.jpg" alt="Listagem e cadastro de Insumos" style="max-width: 30%; height: auto; border-radius: 8px;">
+  <div style="flex: 1 1 20%; text-align: center;">
+    <img src="assets/3.jpg" alt="Listagem e cadastro de Insumos" style="max-width: 15%; height: auto; border-radius: 8px;">
     <p>Listagem e cadastro de Insumos</p>
   </div>
 
-  <div style="flex: 1 1 45%; text-align: center;">
-    <img src="assets/4.jpg" alt="Listamento e cadastro de Produtos Venda" style="max-width: 30%; height: auto; border-radius: 8px;">
+  <div style="flex: 1 1 20%; text-align: center;">
+    <img src="assets/4.jpg" alt="Listamento e cadastro de Produtos Venda" style="max-width: 15%; height: auto; border-radius: 8px;">
     <p>Listamento e cadastro de Produtos Venda</p>
   </div>
 
