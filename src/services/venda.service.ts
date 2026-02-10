@@ -159,7 +159,6 @@ export const vendasService = {
     const mapaInsumos = new Map(insumos.map((i) => [i.id, { ...i }]));
     const insumosAlterados = new Set<string>();
 
-    // 🔹 Baixa de estoque
     for (const item of venda.itens) {
       const produto = produtos.find((p) => p.id === item.produtoVendaId);
       if (!produto) continue;
@@ -173,7 +172,6 @@ export const vendasService = {
       }
     }
 
-    // 🔹 Validação
     for (const id of insumosAlterados) {
       const insumo = mapaInsumos.get(id)!;
       if (insumo.estoque < 0) {
@@ -181,7 +179,6 @@ export const vendasService = {
       }
     }
 
-    // 🔹 Persistência
     if (userId !== "123-mock") {
       await addDoc(collection(db, "vendas"), {
         ...venda,

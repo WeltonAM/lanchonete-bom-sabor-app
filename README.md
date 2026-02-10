@@ -9,10 +9,12 @@ lanchonete-bom-sabor-app/
 │ │ ├─ produtos.tsx
 │ │ ├─ estoque.tsx
 │ │ └─ relatorios.tsx
+│ ├─ insumo/
+│ │ ├─ insumo-form.tsx
+│ │ └─ index.tsx
 │ ├─ produto/
 │ │ ├─ novo.tsx
 │ │ └─ [id].tsx
-│ └─ venda/
 │
 ├─ src/ ← LÓGICA DA APLICAÇÃO
 │ ├─ contexts/

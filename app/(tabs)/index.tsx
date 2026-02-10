@@ -19,10 +19,8 @@ export default function Dashboard() {
   const router = useRouter();
   const { user, logout } = useAuth();
 
-  // 🔹 INSUMOS
   const { alertasEstoque } = useInsumo();
 
-  // 🔹 VENDAS
   const { totalVendasDia, pedidosRealizados, itensVendidos } = useVenda();
 
   const [isLogoutVisible, setIsLogoutVisible] = useState(false);
@@ -42,7 +40,6 @@ export default function Dashboard() {
       <LinearGradient colors={['#0f172a', '#000']} style={styles.background} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* HEADER */}
         <View style={styles.header}>
           <View>
             <Text style={styles.welcomeText}>Olá, {user?.displayName}!</Text>
@@ -57,7 +54,6 @@ export default function Dashboard() {
           </TouchableOpacity>
         </View>
 
-        {/* CARD VENDAS */}
         <LinearGradient
           colors={['rgba(0, 242, 255, 0.2)', 'rgba(0, 102, 255, 0.1)']}
           style={styles.mainCard}
@@ -74,7 +70,6 @@ export default function Dashboard() {
           </View>
         </LinearGradient>
 
-        {/* GRID */}
         <View style={styles.grid}>
           <TouchableOpacity
             style={styles.smallCard}
@@ -89,7 +84,7 @@ export default function Dashboard() {
               styles.smallCard,
               alertasEstoque > 0 && styles.cardAlert,
             ]}
-            onPress={() => router.push('/estoque')}
+            onPress={() => router.push('/(tabs)/estoque')}
           >
             <Ionicons
               name="alert-circle-outline"
@@ -106,7 +101,6 @@ export default function Dashboard() {
           </TouchableOpacity>
         </View>
 
-        {/* AÇÕES */}
         <Text style={styles.sectionTitle}>Ações Rápidas</Text>
 
         <TouchableOpacity
@@ -133,7 +127,6 @@ export default function Dashboard() {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Modal Logout */}
       <Modal
         animationType="fade"
         transparent

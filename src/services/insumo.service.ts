@@ -1,9 +1,26 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { Insumo } from "types/Insumo";
 import { db } from "./firebase";
 
-const MOCK_INSUMOS: Insumo[] = [
-  // 🔹 INGREDIENTES
+const MOCK_USER_ID = "123-mock";
+
+let insumoIdCounter = 1000;
+
+function nextMockId() {
+  insumoIdCounter += 1;
+  return `i${insumoIdCounter}`;
+}
+
+/* 🔹 MOCK EM MEMÓRIA  */
+export const MOCK_INSUMOS: Insumo[] = [
   {
     id: "i1",
     nome: "Pão de Hambúrguer com Gergelim",
@@ -40,54 +57,18 @@ const MOCK_INSUMOS: Insumo[] = [
     id: "i5",
     nome: "Batata Congelada",
     estoque: 8,
-    estoqueMinimo: 10, // 🔴 alerta
+    estoqueMinimo: 10,
     unidade: "kg",
     categoria: "Ingredientes",
   },
   {
-    id: "i6",
-    nome: "Leite Integral",
-    estoque: 10,
-    estoqueMinimo: 5,
-    unidade: "L",
-    categoria: "Ingredientes",
-  },
-  {
-    id: "i7",
-    nome: "Sorvete Creme",
-    estoque: 4,
-    estoqueMinimo: 3,
-    unidade: "L",
-    categoria: "Ingredientes",
-  },
-
-  // 🔹 EMBALAGENS (não podem faltar)
-  {
     id: "e1",
-    nome: "Copo Descartável 500ml",
-    estoque: 200,
-    estoqueMinimo: 50,
-    unidade: "un",
-    categoria: "Embalagens",
-  },
-  {
-    id: "e2",
     nome: "Embalagem para Hambúrguer",
     estoque: 150,
     estoqueMinimo: 40,
     unidade: "un",
     categoria: "Embalagens",
   },
-  {
-    id: "e3",
-    nome: "Guardanapo",
-    estoque: 500,
-    estoqueMinimo: 100,
-    unidade: "un",
-    categoria: "Embalagens",
-  },
-
-  // 🔹 BEBIDAS PARA REVENDA
   {
     id: "b1",
     nome: "Refrigerante Lata",
@@ -96,27 +77,11 @@ const MOCK_INSUMOS: Insumo[] = [
     unidade: "un",
     categoria: "BebidasRevenda",
   },
-  {
-    id: "b2",
-    nome: "Refrigerante 600ml",
-    estoque: 24,
-    estoqueMinimo: 15,
-    unidade: "un",
-    categoria: "BebidasRevenda",
-  },
-  {
-    id: "b3",
-    nome: "Água Mineral",
-    estoque: 60,
-    estoqueMinimo: 30,
-    unidade: "un",
-    categoria: "BebidasRevenda",
-  },
 ];
 
 export const insumoService = {
   async listar(userId: string): Promise<Insumo[]> {
-    if (userId === "123-mock") {
+    if (userId === MOCK_USER_ID) {
       console.log("📦 Usando INSUMOS mockados");
       return MOCK_INSUMOS;
     }
@@ -131,14 +96,46 @@ export const insumoService = {
   },
 
   async salvar(userId: string, insumo: Partial<Insumo>) {
-    if (userId === "123-mock") {
-      alert("Modo mock: operação bloqueada");
+    if (userId === MOCK_USER_ID) {
+      console.log("🧪 Mock: salvando insumo (memória)");
+
+      const novo: Insumo = {
+        id: nextMockId(),
+        nome: insumo.nome!,
+        estoque: insumo.estoque!,
+        estoqueMinimo: insumo.estoqueMinimo,
+        unidade: insumo.unidade!,
+        categoria: insumo.categoria ?? "Ingredientes",
+      };
+
+      MOCK_INSUMOS.push(novo);
       return;
     }
 
-    return await addDoc(collection(db, "insumos"), {
+    await addDoc(collection(db, "insumos"), {
       ...insumo,
       userId,
     });
+  },
+
+  async atualizar(userId: string, id: string, insumo: Partial<Insumo>) {
+    if (!id) throw new Error("ID do insumo é obrigatório");
+
+    if (userId === MOCK_USER_ID) {
+      console.log("🧪 Mock: atualizando insumo (memória)");
+
+      const index = MOCK_INSUMOS.findIndex((i) => i.id === id);
+      if (index >= 0) {
+        MOCK_INSUMOS[index] = {
+          ...MOCK_INSUMOS[index],
+          ...insumo,
+        };
+      }
+
+      return;
+    }
+
+    const ref = doc(db, "insumos", id);
+    await updateDoc(ref, insumo);
   },
 };
